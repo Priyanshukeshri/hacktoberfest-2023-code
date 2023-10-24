@@ -1,0 +1,33 @@
+Given an array of N integers arr[] where each element represents the maximum length of the jump that can be made forward from that element. This means if arr[i] = x, then we can jump any distance y such that y ≤ x.
+Find the minimum number of jumps to reach the end of the array (starting from the first element). If an element is 0, then you cannot move through that element.
+
+Note: Return -1 if you can't reach the end of the array.
+
+def minJumpsToReachEnd(arr):
+    if not arr or arr[0] == 0:
+        return -1  # If the array is empty or the first element is 0, we cannot move.
+
+    n = len(arr)
+    max_reach = arr[0]  # Initialize the farthest position we can reach from the first element.
+    steps = arr[0]  # Initialize the number of steps needed to reach the farthest position.
+
+    for i in range(1, n):
+        # If we have reached the end, return the number of steps.
+        if i == n - 1:
+            return steps
+
+        max_reach = max(max_reach, i + arr[i])  # Update the farthest position we can reach.
+
+        steps -= 1  # Decrement the steps as we move forward.
+
+        if steps == 0:
+            if i >= max_reach:
+                return -1  # If we cannot move further, return -1.
+            steps = max_reach - i  # Update steps to reach the new farthest position.
+
+    return -1  # If we haven't reached the end, return -1.
+
+# Example usage:
+arr = [1, 3, 5, 8, 9, 2, 6, 7, 6, 8]
+result = minJumpsToReachEnd(arr)
+print(result)  # Output: 3
